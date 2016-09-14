@@ -17,7 +17,12 @@
 {% block body %}
     <ul>
         {% for post in posts %}
-            <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+            {% if post.showYear %}
+            <h2 style="position: relative;left: -30px;color: #5e5e5e">{{ post.time.strftime('%Y') }}</h2>
+            {% endif %}
+            <li>{{ post.time.strftime('%m月%d日') }}
+                一 <a href="{{ post.url }}" style="color: #23527c">{{ post.title }}</a></li>
+            <br>
         {% endfor %}
     </ul>
 {% endblock %}

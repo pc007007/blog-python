@@ -97,8 +97,14 @@ def about():
 @app.route('/posts')
 def posts():
     posts = Post.query.order_by("time desc").all()
+    temp = ''
     for post in posts:
+        if temp != post.time.strftime('%Y'):
+            post.showYear = True
+        else:
+            post.showYear = False
         post.url = post.time.strftime("/posts/%Y/%m/%d/" + str(post.id))
+        temp = post.time.strftime('%Y')
     return render_template('user/post.html', posts=posts)
 
 
