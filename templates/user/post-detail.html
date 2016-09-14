@@ -1,0 +1,21 @@
+{% extends "user/layout/layout.html" %}
+{% block header %}
+    <header class="intro-header" style="background-image: url('/static/main-blog/img/post-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ post.title }}</h1>
+                        <br>
+                        <span class="meta"> <i class="fa fa-user fa-fw"></i><a href="#"> {{ post.author }}</a>
+                            <i class="fa fa-calendar fa-fw"></i><a href="#"> {{ post.time }}</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+    {{ post.content | safe }}
+{% endblock %}

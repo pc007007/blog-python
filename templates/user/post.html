@@ -1,0 +1,23 @@
+{% extends "user/layout/layout.html" %}
+{% block header %}
+    <header class="intro-header" style="background-image: url('/static/main-blog/img/contact-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>所有文章</h1>
+                        <h2 class="subheading">历史是彷徨者的向导</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+    <ul>
+        {% for post in posts %}
+            <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
