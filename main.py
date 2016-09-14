@@ -5,11 +5,11 @@ from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMix
 import datetime
 
 app = Flask(__name__)
-#app.config['DEBUG'] = True
+app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'super-secret'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/test2'
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'postgresql://pc007007:pc900804@mydatabase.crdthcvz4g2f.ap-northeast-2.rds.amazonaws.com:5432/blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/test2'
+#app.config['SQLALCHEMY_DATABASE_URI'] = \
+#    'postgresql://pc007007:pc900804@mydatabase.crdthcvz4g2f.ap-northeast-2.rds.amazonaws.com:5432/blog'
 db = SQLAlchemy(app)
 
 roles_users = db.Table('roles_users',
@@ -189,5 +189,5 @@ def admin_deletepost(id):
     return redirect("/admin/post")
 
 if __name__ == '__main__':
-#    app.run()
-    app.run(host='0.0.0.0')
+    app.run()
+#    app.run(host='0.0.0.0')
