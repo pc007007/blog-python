@@ -12,7 +12,6 @@ warnings.simplefilter('ignore', ExtDeprecationWarning)  #depress warning
 
 app = Flask(__name__)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
-#app.config['DEBUG'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = 'super-secret'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/test2'
@@ -212,4 +211,4 @@ def admin_deletepost(id):
 
 if __name__ == '__main__':
 #    app.run(debug='true')
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=80)
