@@ -36,7 +36,7 @@
                     <a href="javascript:postWithData()"><i class="fa fa-angle-double-up fa-fw"></i> 更新</a>
                 </li>
                 <li>
-                    <a href="/admin/post/delete/{{ post.id }}"><i class="fa fa-trash-o fa-fw"></i> 删除</a>
+                    <a href="#" data-toggle="modal" data-target="#myModal" style="outline: 0"><i class="fa fa-trash-o fa-fw"></i> 删除</a>
                 </li>
                 <li>
                     <a href="/admin/post"><i class="fa fa-arrow-left fa-fw"></i> 返回</a>
@@ -48,6 +48,23 @@
 {% endblock %}
 
 {% block content %}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">删除文章</h4>
+                </div>
+                <div class="modal-body">确定要删除这篇文章吗?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <a href="/admin/post/delete/{{ post.id }}" type="button" class="btn btn-danger">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12 floating-label-form-group">
             <i class="fa fa-link fa-fw"></i><input id="title" type="text" placeholder="标题"

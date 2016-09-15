@@ -1,15 +1,23 @@
 from flask import Flask
 from flask import render_template, request, redirect
+from flask_cache import Cache
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import desc
 from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin, login_required
 import datetime
+import warnings
+from flask.exthook import ExtDeprecationWarning
+warnings.simplefilter('ignore', ExtDeprecationWarning)  #depress warning
+
 
 app = Flask(__name__)
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 #app.config['DEBUG'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = 'super-secret'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/test2'
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'postgresql://pc007007:pc900804@mydatabase.crdthcvz4g2f.ap-northeast-2.rds.amazonaws.com:5432/blog'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost:5432/test2'
+#app.config['SQLALCHEMY_DATABASE_URI'] = \
+#    'postgresql://pc007007:pc900804@mydatabase.crdthcvz4g2f.ap-northeast-2.rds.amazonaws.com:5432/blog'
 db = SQLAlchemy(app)
 
 roles_users = db.Table('roles_users',
@@ -81,24 +89,30 @@ security = Security(app, user_datastore)
 db.create_all()
 
 
-def adminLog(action,post):
+def adminLog(action, post):
     message = AdminMessage(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), action + '文章(' + post.title + ')')
     db.session.add(message)
+    if AdminMessage.query.count() > 500:
+        db.session.delete(AdminMessage.query.first())
+
 
 
 @app.route('/')
+@cache.cached(timeout=None, key_prefix='index', unless=None)
 def index():
     return render_template('user/index.html')
 
 
 @app.route('/about')
+@cache.cached(timeout=None, key_prefix='about', unless=None)
 def about():
     return render_template('user/about.html')
 
 
 @app.route('/posts/')
+@cache.cached(timeout=None, key_prefix='posts', unless=None)
 def posts():
-    posts = Post.query.order_by("time desc").all()
+    posts = Post.query.order_by(desc('time')).all()
     temp = ''
     for post in posts:
         if temp != post.time.strftime('%Y'):
@@ -111,11 +125,13 @@ def posts():
 
 
 @app.route('/contact')
+@cache.cached(timeout=None, key_prefix='contact', unless=None)
 def contact():
     return render_template('user/contact.html')
 
 
 @app.route('/posts/<year>/<month>/<day>/<id>')
+@cache.cached(timeout=300, key_prefix='view_%s', unless=None)
 def postDetail(id, year, month, day):
     post = Post.query.filter_by(id=id).first()
     post.time = post.time.strftime("%Y-%m-%d")
@@ -135,7 +151,7 @@ def skillTreeShowcase():
 @app.route('/admin')
 @login_required
 def admin():
-    messages = AdminMessage.query.order_by("time desc").limit(20)
+    messages = AdminMessage.query.order_by(desc('time')).limit(20)
     return render_template('admin/index.html', messages=messages)
 
 
@@ -153,6 +169,8 @@ def admin_writepost():
         adminLog('添加', post)
         db.session.add(post)
         db.session.commit()
+        cache.delete('posts')
+        cache.delete('index')
         return redirect('/admin')
     return render_template('admin/write-post.html')
 
@@ -166,6 +184,8 @@ def admin_updatepost(id):
         post.content = request.form['content']
         adminLog('修改', post)
         db.session.commit()
+        cache.delete('posts')
+        cache.delete('index')
         return render_template('admin/update-post.html', post=post)
 
     post = Post.query.filter_by(id=id).first()
@@ -175,7 +195,7 @@ def admin_updatepost(id):
 @app.route('/admin/post')
 @login_required
 def admin_allpost():
-    posts = Post.query.order_by("time desc").all()
+    posts = Post.query.order_by(desc('time')).all()
     return render_template('admin/post.html', posts=posts)
 
 
@@ -186,8 +206,10 @@ def admin_deletepost(id):
     adminLog('删除', post)
     db.session.delete(post)
     db.session.commit()
+    cache.delete('posts')
+    cache.delete('index')
     return redirect("/admin/post")
 
 if __name__ == '__main__':
-#    app.run()
-    app.run(host='0.0.0.0')
+    app.run(debug='true')
+#    app.run(host='0.0.0.0')

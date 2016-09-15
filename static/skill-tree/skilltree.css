@@ -1,0 +1,25 @@
+.skill-tree {
+    position: relative;
+    margin-left: 10%;
+    margin-right:10%
+}
+#skill-info {
+    position: absolute;
+    background-color: #333333;
+    color: white;
+    opacity: 0.9;
+    width: 200px;
+    height: auto;
+    margin: 0px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid yellowgreen;
+}
+p {
+    margin: 5px
+}
+
+body {
+    background-color: black;
+    color: white;
+}
