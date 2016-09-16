@@ -102,7 +102,7 @@ def index():
     posts = Post.query.order_by(desc('time')).all()
     for post in posts:
         post.url = post.time.strftime("/posts/%Y/%m/%d/" + str(post.id))
-        post.content = ''.join(BeautifulSoup(post.content).findAll(text=True))
+        post.content = ''.join(BeautifulSoup(post.content, "html.parser").findAll(text=True))
     posts = posts[0:5]
     return render_template('user/index.html', posts=posts)
 
@@ -135,7 +135,7 @@ def contact():
 
 
 @app.route('/posts/<year>/<month>/<day>/<id>')
-@cache.cached(timeout=300, key_prefix='postDetail', unless=None)
+@cache.memoize(timeout=300, unless=None)
 def postDetail(id, year, month, day):
     post = Post.query.filter_by(id=id).first()
     post.time = post.time.strftime("%Y-%m-%d")
@@ -169,14 +169,16 @@ def admin_edit():
 @login_required
 def admin_writepost():
     if request.method == 'POST':
-        post = Post(request.form['title'], datetime.datetime.now(), request.form['author'], request.form['content'])
+        data = request.get_json(force=True)
+        post = Post(data['title'], datetime.datetime.now(), data['author'], data['content'])
         adminLog('添加', post)
         db.session.add(post)
         db.session.commit()
         cache.delete('posts')
         cache.delete('index')
         return redirect('/admin')
-    return render_template('admin/write-post.html')
+    tags = Tag.query.all()
+    return render_template('admin/write-post.html', tags=tags)
 
 
 @app.route('/admin/post/update/<id>', methods=["GET", "POST"])
@@ -216,5 +218,7 @@ def admin_deletepost(id):
     return redirect("/admin/post")
 
 if __name__ == '__main__':
-#    app.run(debug='true')
+    import logging
+    logging.basicConfig(filename='/home/ec2-user/blog-python/error.log', level=logging.DEBUG)
     app.run(host='0.0.0.0', port=80)
+#    app.run(debug='true')

@@ -24,16 +24,14 @@
                     <a href="/admin/write-post"><i class="fa fa-edit fa-fw"></i> 写文章<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
-                            <a href="#"> 分类</a>
-                        </li>
-                        <li>
-                            <a href="#">Morris.js Charts</a>
+                            <a href="#" data-toggle="modal" data-target="#tag" style="outline: 0"> 添加标签</a>
                         </li>
                     </ul>
                     <!-- /.nav-second-level -->
                 </li>
                 <li>
-                    <a href="#" data-toggle="modal" data-target="#myModal" style="outline: 0"><i class="fa fa-rocket fa-fw"></i> 发布</a>
+                    <a href="#" data-toggle="modal" data-target="#publish" style="outline: 0"><i
+                            class="fa fa-rocket fa-fw"></i> 发布</a>
                 </li>
                 <li>
                     <a href="/admin"><i class="fa fa-arrow-left fa-fw"></i> 返回</a>
@@ -45,7 +43,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+    <div class="modal fade" id="publish" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -62,12 +60,32 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="tag" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">添加标签</h4>
+                </div>
+                <div class="modal-body">
+                    {% for tag in tags %}
+                        <code>{{ tag.name }}</code>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <a href="/admin/addTag" type="button" class="btn btn-info">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-lg-12 floating-label-form-group">
             <i class="fa fa-link fa-fw"></i><input id="title" type="text" placeholder="标题"
                                                    style="width: 90%;padding-left: 10px">
         </div>
-        <!-- /.col-lg-12 -->
     </div>
     <div id="summernote"><p>写下一些内容...</p></div>
     <script>
@@ -77,7 +95,25 @@
             });
         });
 
-        function post(destination, title, author, content) {
+        var data = {
+                'title': $("#title").val(),
+                'author': "pc",
+                'content': $("#summernote").summernote("code")
+            }
+
+        $.ajax({
+            type: 'POST',
+            url: '/admin/write-post',
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.success) {
+                    window.location.href = "/admin"
+                }
+            }
+        })
+
+        function post(destination, title, author, content, tag) {
             var myForm = document.createElement("form");
             myForm.method = "post";
             myForm.action = destination;
@@ -94,6 +130,11 @@
             myInput = document.createElement("input");
             myInput.setAttribute("name", 'content');
             myInput.setAttribute("value", content);
+            myForm.appendChild(myInput);
+
+            myInput = document.createElement("input");
+            myInput.setAttribute("name", 'tag');
+            myInput.setAttribute("value", tag);
             myForm.appendChild(myInput);
 
             document.body.appendChild(myForm);
