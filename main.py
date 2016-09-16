@@ -8,6 +8,7 @@ import datetime
 import warnings
 from flask.exthook import ExtDeprecationWarning
 warnings.simplefilter('ignore', ExtDeprecationWarning)  #depress warning
+from bs4 import BeautifulSoup
 
 
 app = Flask(__name__)
@@ -95,11 +96,15 @@ def adminLog(action, post):
         db.session.delete(AdminMessage.query.first())
 
 
-
 @app.route('/')
 @cache.cached(timeout=None, key_prefix='index', unless=None)
 def index():
-    return render_template('user/index.html')
+    posts = Post.query.order_by(desc('time')).all()
+    for post in posts:
+        post.url = post.time.strftime("/posts/%Y/%m/%d/" + str(post.id))
+        post.content = ''.join(BeautifulSoup(post.content).findAll(text=True))
+    posts = posts[0:5]
+    return render_template('user/index.html', posts=posts)
 
 
 @app.route('/about')
@@ -130,7 +135,7 @@ def contact():
 
 
 @app.route('/posts/<year>/<month>/<day>/<id>')
-@cache.cached(timeout=300, key_prefix='view_%s', unless=None)
+@cache.cached(timeout=300, key_prefix='postDetail', unless=None)
 def postDetail(id, year, month, day):
     post = Post.query.filter_by(id=id).first()
     post.time = post.time.strftime("%Y-%m-%d")
@@ -185,6 +190,7 @@ def admin_updatepost(id):
         db.session.commit()
         cache.delete('posts')
         cache.delete('index')
+        cache.delete('postDetail')
         return render_template('admin/update-post.html', post=post)
 
     post = Post.query.filter_by(id=id).first()
