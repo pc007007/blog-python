@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, jsonify
 from flask_cache import Cache
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import desc
@@ -9,9 +9,22 @@ import warnings
 from flask.exthook import ExtDeprecationWarning
 warnings.simplefilter('ignore', ExtDeprecationWarning)  #depress warning
 from bs4 import BeautifulSoup
-
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
+
+app.config.update(
+    MAIL_SERVER='smtp.126.com',
+    MAIL_PROT=25,
+    MAIL_USE_TLS=True,
+    MAIL_USE_SSL=False,
+    MAIL_USERNAME="pc0804",
+    MAIL_PASSWORD="pc007007",
+    MAIL_DEBUG=True
+)
+
+
+mail = Mail(app)
 cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['SECRET_KEY'] = 'super-secret'
@@ -68,7 +81,8 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), unique=True)
 
-    def __init__(self, name):
+    def __init__(self, id, name):
+        self.id = id
         self.name = name
 
 
@@ -103,7 +117,7 @@ def index():
     for post in posts:
         post.url = post.time.strftime("/posts/%Y/%m/%d/" + str(post.id))
         post.content = ''.join(BeautifulSoup(post.content, "html.parser").findAll(text=True))
-    posts = posts[0:5]
+    posts = posts[0:4]
     return render_template('user/index.html', posts=posts)
 
 
@@ -171,12 +185,14 @@ def admin_writepost():
     if request.method == 'POST':
         data = request.get_json(force=True)
         post = Post(data['title'], datetime.datetime.now(), data['author'], data['content'])
+        tags = [Tag.query.get(x['id']) for x in data['tags']] #很关键
+        post.tags = tags
         adminLog('添加', post)
         db.session.add(post)
         db.session.commit()
         cache.delete('posts')
         cache.delete('index')
-        return redirect('/admin')
+        return jsonify()
     tags = Tag.query.all()
     return render_template('admin/write-post.html', tags=tags)
 
@@ -216,6 +232,17 @@ def admin_deletepost(id):
     cache.delete('posts')
     cache.delete('index')
     return redirect("/admin/post")
+
+
+@app.route('/sendMail', methods=['POST'])
+def sendMail():
+    data = request.get_json(force=True)
+    msg = Message(data['name']+'(' + data['email'] + ')给你发了邮件',
+                  sender="pc0804@126.com",
+                  recipients=["pc0804@126.com"])
+    msg.html = '<p>'+data['message']+'</p>'
+    mail.send(msg)
+    return jsonify(status="OK")
 
 if __name__ == '__main__':
     import logging

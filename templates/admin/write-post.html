@@ -55,7 +55,7 @@
                 <div class="modal-body">确定要发布这篇文章吗?</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <a href="javascript:postWithData()" type="button" class="btn btn-info">确定</a>
+                    <a href="javascript:post()" type="button" class="btn btn-info">确定</a>
                 </div>
             </div>
         </div>
@@ -95,55 +95,32 @@
             });
         });
 
-        var data = {
+        tags = [];
+
+        {% for tag in tags %}
+            var x = {};
+            x.id = "{{ tag.id }}";
+            x.name = "{{ tag.name}}";
+            tags.push(x);
+        {% endfor %}
+
+        function post() {
+            var data = {
                 'title': $("#title").val(),
                 'author': "pc",
-                'content': $("#summernote").summernote("code")
-            }
-
-        $.ajax({
-            type: 'POST',
-            url: '/admin/write-post',
-            dataType: "json",
-            data: JSON.stringify(data),
-            success: function (result) {
-                if (result.success) {
+                'content': $("#summernote").summernote("code"),
+                'tags': tags,
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/admin/write-post',
+                dataType: "json",
+                data: JSON.stringify(data),
+                success: function (result) {
                     window.location.href = "/admin"
                 }
-            }
-        })
-
-        function post(destination, title, author, content, tag) {
-            var myForm = document.createElement("form");
-            myForm.method = "post";
-            myForm.action = destination;
-            var myInput = document.createElement("input");
-            myInput.setAttribute("name", 'title');
-            myInput.setAttribute("value", title);
-            myForm.appendChild(myInput);
-
-            myInput = document.createElement("input");
-            myInput.setAttribute("name", 'author');
-            myInput.setAttribute("value", author);
-            myForm.appendChild(myInput);
-
-            myInput = document.createElement("input");
-            myInput.setAttribute("name", 'content');
-            myInput.setAttribute("value", content);
-            myForm.appendChild(myInput);
-
-            myInput = document.createElement("input");
-            myInput.setAttribute("name", 'tag');
-            myInput.setAttribute("value", tag);
-            myForm.appendChild(myInput);
-
-            document.body.appendChild(myForm);
-            myForm.submit();
-            document.body.removeChild(myForm);
+            })
         }
-        function postWithData() {
-            var markupStr = $('#summernote').summernote('code');
-            post('/admin/write-post', document.getElementById('title').value, 'pc', markupStr)
-        }
+
     </script>
 {% endblock %}

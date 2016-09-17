@@ -1,7 +1,8 @@
 {% extends "user/layout/layout.html" %}
 {% block title %}Pitcher| 联系{% endblock %}
 {% block header %}
-    <header class="intro-header" style="background-image: url('http://img.my.csdn.net/uploads/201609/15/1473919490_6247.jpg')">
+    <header class="intro-header"
+            style="background-image: url('http://img.my.csdn.net/uploads/201609/15/1473919490_6247.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -62,4 +63,8 @@
             </div>
         </div>
     </form>
+{% endblock %}
+{% block resourceBot %}
+    <script src="/static/main-blog/js/jqBootstrapValidation.js"></script>
+    <script src="/static/main-blog/js/contact_me.js"></script>
 {% endblock %}
