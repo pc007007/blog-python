@@ -1,7 +1,15 @@
 {% extends "user/layout/layout.html" %}
 {% block title %}Pitcher| 玩意儿{% endblock %}
+{% block resourceTop %}
+    <style type="text/css">
+    body{
+        background-color: #eee;
+    }
+    </style>
+{% endblock %}
 {% block header %}
-    <header class="intro-header" style="background-image: url('http://img.my.csdn.net/uploads/201609/15/1473919444_6618.jpg')">
+    <header class="intro-header"
+            style="background-image: url('http://img.my.csdn.net/uploads/201609/15/1473919444_6618.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -17,6 +25,77 @@
 {% endblock %}
 
 {% block body %}
-    <a href="/project/skill-tree/showcase">skill tree</a>
+    <!-- Portfolio Grid Section -->
+    <section id="portfolio" class="bg-light-gray">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 portfolio-item">
+                <a href="#portfolioModal1" class="portfolio-link" data-toggle="modal">
+                    <div class="portfolio-hover">
+                        <div class="portfolio-hover-content">
+                            <i class="fa fa-plus fa-3x"></i>
+                        </div>
+                    </div>
+                    <img src="http://a3.qpic.cn/psb?/V11BveOh2NYhJ3/b9D1kcbz2E7Y7x14*DesR5qmwa0gSZjKghuQvlOAURY!/b/dK0AAAAAAAAA&bo=LAKRAQAAAAADB5w!&rf=viewer_4"
+                          class="img-responsive" alt="">
+                </a>
+                <div class="portfolio-caption">
+                    <h4>技能树</h4>
+                    <p class="text-muted">基于D3.js的一个纯javascript写的动态技能树</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 portfolio-item">
+                <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                    <div class="portfolio-hover">
+                        <div class="portfolio-hover-content">
+                            <i class="fa fa-plus fa-3x"></i>
+                        </div>
+                    </div>
+                    <img src="/static/user/img/project-default.png" class="img-responsive" alt="">
+                </a>
+                <div class="portfolio-caption">
+                    <h4>待续</h4>
+                    <p class="text-muted">简介</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 portfolio-item">
+                <a href="#portfolioModal2" class="portfolio-link" data-toggle="modal">
+                    <div class="portfolio-hover">
+                        <div class="portfolio-hover-content">
+                            <i class="fa fa-plus fa-3x"></i>
+                        </div>
+                    </div>
+                    <img src="/static/user/img/project-default.png" class="img-responsive" alt="">
+                </a>
+                <div class="portfolio-caption">
+                    <h4>待续</h4>
+                    <p class="text-muted">简介</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="padding-top: 10px">
+                <div class="close-modal" data-dismiss="modal" style="z-index: 2">
+                    <div class="lr">
+                        <div class="rl">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" style="color:wheat;padding: 0">
+                    <!-- Project Details Go Here -->
+                    <h2>技能树</h2>
+                    <iframe name="info" src="/project/skill-tree/showcase" scrolling="yes" frameborder="0" width="120%"
+                            onload="this.height=info.document.body.scrollHeight"></iframe>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        <i class="fa fa-times"></i> 离开</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+
+{% block map %}
+{% endblock %}
+
 

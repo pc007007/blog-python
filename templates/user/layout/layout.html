@@ -15,7 +15,7 @@
     <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Theme CSS -->
-    <link href="/static/main-blog/css/clean-blog.css" rel="stylesheet">
+    <link href="/static/user/css/clean-blog.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="http://libs.baidu.com/fontawesome/4.0.3/css/font-awesome.css" rel="stylesheet" type="text/css">
@@ -34,7 +34,7 @@
 
 </head>
 
-<body style="outline: 0">
+<body>
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
@@ -93,22 +93,7 @@
 </div>
 
 <hr>
-<div id="container" tabindex="0" style="height: 300px;width: 100%;margin: 0px;outline: 0"></div>
-<hr>
-<script src="http://webapi.amap.com/maps?v=1.3&key=ab7b4070e0c76f5c58cec4b87eb90939"></script>
-<script type="text/javascript">
-    var map = new AMap.Map('container', {
-        resizeEnable: false,
-        center: [117.196648, 39.147869 ],
-        zoom: 14,
-        dragEnable: false,
-        zoomEnable: false,
-        doubleClickZoom: false
-    });
-    AMap.plugin('AMap.ToolBar', function () {
-        map.addControl(new AMap.ToolBar())
-    })
-</script>
+{% block map %}{% endblock %}
 <!-- Footer -->
 <footer>
     <div class="container">
@@ -154,7 +139,7 @@
 <!-- Contact Form JavaScript -->
 {% block resourceBot %}{% endblock %}
 <!-- Theme JavaScript -->
-<script src="/static/main-blog/js/clean-blog.min.js"></script>
+<script src="/static/user/js/clean-blog.min.js"></script>
 
 </body>
 
