@@ -27,18 +27,18 @@
     <img src="http://img.my.csdn.net/uploads/201609/17/1474112525_9478.jpg">
 {% endblock %}
 {% block map %}
-<div id="container" tabindex="0" style="height: 400px;width: 100%;margin: 0px;outline: 0"></div>
-<hr>
-<script src="http://webapi.amap.com/maps?v=1.3&key=ab7b4070e0c76f5c58cec4b87eb90939"></script>
-<script type="text/javascript">
-    var map = new AMap.Map('container', {
-        resizeEnable: false,
-        center: [117.196648, 39.147869 ],
-        zoom: 14,
-        dragEnable: true,
-        zoomEnable: false,
-        doubleClickZoom: false
-    });
-</script>
+    <div id="container" tabindex="0" style="height: 400px;width: 100%;margin: 0px;outline: 0"></div>
+    <hr>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=ab7b4070e0c76f5c58cec4b87eb90939"></script>
+    <script type="text/javascript">
+        var map = new AMap.Map('container', {
+            resizeEnable: false,
+            center: [117.196648, 39.147869],
+            zoom: 14,
+            dragEnable: true,
+            zoomEnable: false,
+            doubleClickZoom: false
+        });
+    </script>
 {% endblock %}
 

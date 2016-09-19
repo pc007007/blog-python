@@ -21,6 +21,9 @@ $(function() {
             if (firstName.indexOf(' ') >= 0) {
                 firstName = name.split(' ').slice(0, -1).join(' ');
             }
+            $('body').addClass("blur");
+            NProgress.start();
+            NProgress.set(0.4);
             $.ajax({
                 url: "/sendMail",
                 type: "POST",
@@ -28,6 +31,9 @@ $(function() {
                 cache: false,
                 success: function() {
                     // Success message
+                    NProgress.inc();
+                    NProgress.done();
+                    $('body').removeClass("blur");
                     $('#success').html("<div class='alert alert-success'>");
                     $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                         .append("</button>");
