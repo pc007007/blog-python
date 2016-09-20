@@ -246,6 +246,6 @@ def sendMail():
 
 if __name__ == '__main__':
     import logging
-    logging.basicConfig(filename='/home/ec2-user/blog-python/error.log', level=logging.DEBUG)
+    logging.basicConfig(filename='/home/ec2-user/var/org/chengpeng/error.log', level=logging.DEBUG)
     app.run(host='0.0.0.0', port=80)
 #    app.run(debug='true')
