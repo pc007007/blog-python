@@ -2,9 +2,9 @@
 {% block title %}Pitcher| 玩意儿{% endblock %}
 {% block resourceTop %}
     <style type="text/css">
-    body{
-        background-color: #eee;
-    }
+        body {
+            background-color: #eee;
+        }
     </style>
 {% endblock %}
 {% block header %}
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <img src="https://raw.githubusercontent.com/pc007007/picture/master/blog/skilltree.png"
-                          class="img-responsive" alt="">
+                         class="img-responsive" alt="">
                 </a>
                 <div class="portfolio-caption">
                     <h4>技能树</h4>
@@ -85,10 +85,12 @@
                 <div class="modal-body" style="color:wheat;padding: 0">
                     <!-- Project Details Go Here -->
                     <h2>技能树</h2>
-                    <iframe name="info" src="/project/skill-tree/showcase" scrolling="yes" frameborder="0" width="120%"
+                    <iframe id="skilltree" name="info" src="" scrolling="yes"
+                            frameborder="0" width="120%"
                             onload="this.height=info.document.body.scrollHeight"></iframe>
                     <button type="button" class="btn btn-primary" data-dismiss="modal">
-                        <i class="fa fa-times"></i> 离开</button>
+                        <i class="fa fa-times"></i> 离开
+                    </button>
                 </div>
             </div>
         </div>
@@ -96,6 +98,11 @@
 {% endblock %}
 
 {% block map %}
+    <script type="text/javascript">
+        $(".portfolio-hover").click(function () {
+            $("iframe#skilltree").attr("src", "/project/skill-tree/showcase");
+        });
+    </script>
 {% endblock %}
 
 
