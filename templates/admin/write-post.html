@@ -92,6 +92,12 @@
         $(document).ready(function () {
             $('#summernote').summernote({
                 height: document.body.clientHeight + 30,
+                toolbar: [
+                    ['Paragraph style', ['style', 'ol', 'ul', 'paragraph', 'height']],
+                    ['font style', ['fontsize', 'color', 'bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'table', 'hr']],
+                    ['misc', ['codeview']],
+                ]
             });
         });
 

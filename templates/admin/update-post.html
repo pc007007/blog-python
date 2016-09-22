@@ -36,7 +36,8 @@
                     <a href="javascript:postWithData()"><i class="fa fa-angle-double-up fa-fw"></i> 更新</a>
                 </li>
                 <li>
-                    <a href="#" data-toggle="modal" data-target="#myModal" style="outline: 0"><i class="fa fa-trash-o fa-fw"></i> 删除</a>
+                    <a href="#" data-toggle="modal" data-target="#myModal" style="outline: 0"><i
+                            class="fa fa-trash-o fa-fw"></i> 删除</a>
                 </li>
                 <li>
                     <a href="/admin/post"><i class="fa fa-arrow-left fa-fw"></i> 返回</a>
@@ -77,6 +78,12 @@
         $(document).ready(function () {
             $('#summernote').summernote({
                 height: 600,
+                toolbar: [
+                    ['Paragraph style', ['style', 'ol', 'ul', 'paragraph', 'height']],
+                    ['font style', ['fontsize', 'color', 'bold', 'italic', 'underline', 'clear']],
+                    ['insert', ['picture', 'link', 'table', 'hr']],
+                    ['misc', ['codeview']],
+                ]
             });
         });
 
