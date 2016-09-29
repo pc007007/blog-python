@@ -127,8 +127,8 @@ db.create_all()
 import router
 router.start(app, cache, Post, AdminMessage, Tag, db)
 
-import Api
-Api.start(app, mail, db, Tag, Post)
+import api
+api.start(app, mail, db, Tag, Post)
 
 if __name__ == '__main__':
     import logging
