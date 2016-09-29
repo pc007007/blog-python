@@ -12,7 +12,7 @@ function toggleDuoshuoComments(container, id, website) {
     var el = document.createElement('div');//该div不需要设置class="ds-thread"
     el.setAttribute('data-thread-key', id);//必选参数
     el.setAttribute('data-url', website);//必选参数
-    el.setAttribute('data-author-key', '123');//可选参数
+    el.setAttribute('data-author-key', 'pc');//可选参数
     DUOSHUO.EmbedThread(el);
     jQuery(container).append(el);
 }
@@ -155,7 +155,7 @@ function setPostDetailContent() {
                     NProgress.done();
                 }
             });
-            toggleDuoshuoComments('#comment-box', post.id, 'localhost');
+            toggleDuoshuoComments('#comment-box', post.id, 'chengpeng.org');
             NProgress.inc();
             $('img').addClass('img-responsive');
             $('title').html('Pitcher | ' + post.title);
@@ -179,7 +179,7 @@ function setAboutContent() {
         url: '/api/aboutContent',
         success: function (result) {
             $('#main-content').html(result);
-            toggleDuoshuoComments('#comment-box', 'about', 'localhost');
+            toggleDuoshuoComments('#comment-box', 'about', 'chengpeng.org');
             count = 0;
             $('.content img').load(function () {
                 count++;
