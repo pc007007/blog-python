@@ -1,0 +1,23 @@
+<div class="relative-posts">
+    <h5>相关文章</h5>
+    {% if relPosts.__len__() == 0 %}
+        <p>无</p>
+    {% endif %}
+    {% for rp in relPosts %}
+        <p><a url="{{ rp.time.strftime("/beta/posts/%Y/%m/%d/" + rp.id|string) }}">{{ rp.title }}</a></p>
+    {% endfor %}
+</div>
+<div class="recent-posts">
+    <h5>最近文章</h5>
+    {% for rp in recentPosts %}
+        <p><a url="{{ rp.time.strftime("/beta/posts/%Y/%m/%d/" + rp.id|string) }}">{{ rp.title }}</a></p>
+    {% endfor %}
+</div>
+<div class="all-tags">
+    <h5>所有标签</h5>
+    <ul class="tags blue" style="padding-left: 0">
+        {% for tag in tags %}
+            <li><a url="/beta/posts?tag={{ tag.id }}">{{ tag.name }}<span>{{ tag.count }}</span></a></li>
+        {% endfor %}
+    </ul>
+</div>

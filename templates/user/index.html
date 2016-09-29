@@ -19,25 +19,29 @@
 
 
 {% block body %}
-
-    {% for post in posts %}
-        <div class="post-preview">
-            <a href="{{ post.url }}">
-                <h2 class="post-title">
-                    {{ post.title }}
-                </h2>
-                <h3 class="post-subtitle" style="font-size: 0.9em">
-                    {{ post.content[0:100] }}......
-                </h3>
-            </a>
-            <p class="post-meta"><a href="/about"> {{ post.author }} </a>发表于 {{ post.time.strftime("%Y年 %m月 %d日") }}</p>
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            {% for post in posts %}
+                <div class="post-preview">
+                    <a href="{{ post.url }}">
+                        <h2 class="post-title">
+                            {{ post.title }}
+                        </h2>
+                        <h3 class="post-subtitle" style="font-size: 0.9em">
+                            {{ post.content[0:150] }}......
+                        </h3>
+                    </a>
+                    <p class="post-meta"><a
+                            href="/about"> {{ post.author }} </a>发表于 {{ post.time.strftime("%Y年 %m月 %d日") }}</p>
+                </div>
+                <hr>
+            {% endfor %}
+            <!-- Pager -->
+            <ul class="pager">
+                <li class="next">
+                    <a href="/posts/">更多文章 &rarr;</a>
+                </li>
+            </ul>
         </div>
-        <hr>
-    {% endfor %}
-    <!-- Pager -->
-    <ul class="pager">
-        <li class="next">
-            <a href="/posts/">更多文章 &rarr;</a>
-        </li>
-    </ul>
+    </div>
 {% endblock %}

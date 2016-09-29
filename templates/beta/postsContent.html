@@ -1,0 +1,13 @@
+<div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1">
+    <h2 style="position: relative;left: -30px;color: #5e5e5e">{{ message }}</h2>
+    <ul>
+        {% for post in posts %}
+            {% if post.showYear %}
+                <h2 style="position: relative;left: -30px;color: #5e5e5e">{{ post.time.strftime('%Y') }}</h2>
+            {% endif %}
+            <li>{{ post.time.strftime('%m月%d日') }}
+                一 <a class="toPostDetail" style="color: #23527c" url="{{ post.url }}">{{ post.title }}</a></li>
+            <br>
+        {% endfor %}
+    </ul>
+</div>

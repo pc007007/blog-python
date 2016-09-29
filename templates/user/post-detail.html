@@ -5,7 +5,7 @@
             style="background-image: url('https://raw.githubusercontent.com/pc007007/blog-python/master/static/user/img/post-bg.jpg')">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="col-lg-8 col-md-10">
                     <div class="post-heading">
                         <h1>{{ post.title }}</h1>
                         <br>
@@ -19,26 +19,58 @@
 {% endblock %}
 
 {% block body %}
-    <div id="post-content">
-        {{ post.content | safe }}
-        <br>
-        <!-- 多说评论框 start -->
-        <div class="ds-thread" data-thread-key="{{ post.id }}" data-title="{{ post.title }}"
-             data-url="chengpeng.org{{ request.path }}"></div>
-        <!-- 多说评论框 end -->
-        <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-        <script type="text/javascript">
-            var duoshuoQuery = {short_name: "test2017"};
-            (function () {
-                var ds = document.createElement('script');
-                ds.type = 'text/javascript';
-                ds.async = true;
-                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-                ds.charset = 'UTF-8';
-                (document.getElementsByTagName('head')[0]
-                || document.getElementsByTagName('body')[0]).appendChild(ds);
-            })();
-        </script>
-        <!-- 多说公共JS代码 end -->
+    <div class="row">
+        <p id="tag-content" style="margin: 10px 0 5px 3px">标签</p>
+        <div class="col-xs-12 col-sm-8 col-md-8" id="post-content">
+            {{ post.content | safe }}
+            <br>
+            <!-- 多说评论框 start -->
+            <div class="ds-thread" data-thread-key="{{ post.id }}" data-title="{{ post.title }}"
+                 data-url="chengpeng.org{{ request.path }}"></div>
+            <!-- 多说评论框 end -->
+            <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name: "test2017"};
+                (function () {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';
+                    ds.async = true;
+                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0]
+                    || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- 多说公共JS代码 end -->
+        </div>
+        <div class="col-xs-12 col-sm-4 col-md-4">
+            <div class="post-right">
+                <h5>最近文章</h5>
+                <p><a href="#">第一行写的有问题</a></p>
+                <p><a href="#">模版可以从这里下载</a></p>
+                <p><a href="#">近对python比较感兴趣</a></p>
+                <h5>相关文章</h5>
+                <p><a href="#">第一行写的有问题</a></p>
+                <p><a href="#">模版可以从这里下载</a></p>
+                <p><a href="#">近对python比较感兴趣</a></p>
+                <h5>标签</h5>
+                <ul class="tags blue" style="padding-left: 0">
+                </ul>
+            </div>
+        </div>
     </div>
+{% endblock %}
+
+{% block resourceBot %}
+    <script type="text/javascript">
+        $.ajax({
+            type: 'GET',
+            url: '/api/tag',
+            success: function (result) {
+                result.forEach(function (x) {
+                    $('.tags.blue').append("<li><a href='#'>"+x.name+"<span>40</span></a></li>");
+                })
+            }
+        })
+    </script>
 {% endblock %}

@@ -71,10 +71,17 @@
             <i class="fa fa-link fa-fw"></i><input id="title" type="text" placeholder="标题"
                                                    style="width: 90%;padding-left: 10px" value="{{ post.title }}">
         </div>
+        <div class="col-lg-12 floating-label-form-group">
+            <input id="imgurl" type="text" placeholder="标题图片地址"
+                   style="width: 90%;padding: 0px 0px 0px 10px;font-size: 1em" value="{{ post.imgurl }}">
+        </div>
         <!-- /.col-lg-12 -->
     </div>
     <div id="summernote"><p>{{ post.content|safe }}</p></div>
     <script>
+        $('.fa.fa-link.fa-fw').click(function () {
+            $('#imgurl').toggleClass('hide');
+        });
         $(document).ready(function () {
             $('#summernote').summernote({
                 height: 600,
@@ -87,7 +94,7 @@
             });
         });
 
-        function post(destination, title, author, content) {
+        function post(destination, title, author, content, imgurl) {
             var myForm = document.createElement("form");
             myForm.method = "post";
             myForm.action = destination;
@@ -106,13 +113,18 @@
             myInput.setAttribute("value", content);
             myForm.appendChild(myInput);
 
+            myInput = document.createElement("input");
+            myInput.setAttribute("name", 'imgurl');
+            myInput.setAttribute("value", imgurl);
+            myForm.appendChild(myInput);
+
             document.body.appendChild(myForm);
             myForm.submit();
             document.body.removeChild(myForm);
         }
         function postWithData() {
             var markupStr = $('#summernote').summernote('code');
-            post('/admin/post/update/{{ post.id }}', document.getElementById('title').value, 'pc', markupStr)
+            post('/admin/post/update/{{ post.id }}', document.getElementById('title').value, 'pc', markupStr, $('#imgurl').val())
         }
     </script>
 {% endblock %}
