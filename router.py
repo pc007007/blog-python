@@ -93,16 +93,20 @@ def start(app, cache, Post, AdminMessage, Tag, db):
     @login_required
     def admin_updatepost(id):
         if request.method == 'POST':
+            data = request.get_json(force=True)
             post = Post.query.get(id)
-            post.title = request.form['title']
-            post.content = request.form['content']
-            post.imgurl = request.form['imgurl']
+            post.title = data['title']
+            post.content = data['content']
+            post.imgurl = data['imgurl']
+            tags = [Tag.query.get(x['id']) for x in data['tags']]
+            post.tags = tags
             adminLog('修改', post)
             db.session.commit()
             cache.delete('posts')
             cache.delete('index')
             cache.delete('postDetail')
-            return render_template('admin/update-post.html', post=post)
+            #return render_template('admin/update-post.html', post=post)
+            return jsonify()
 
         post = Post.query.filter_by(id=id).first()
         return render_template('admin/update-post.html', post=post)
