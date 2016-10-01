@@ -4,20 +4,25 @@
         <p>无</p>
     {% endif %}
     {% for rp in relPosts %}
-        <p><a url="{{ rp.time.strftime("/beta/posts/%Y/%m/%d/" + rp.id|string) }}">{{ rp.title }}</a></p>
+        <div>
+            <p><a url="{{ rp.time.strftime("/beta/posts/%Y/%m/%d/" + rp.id|string) }}">{{ rp.title }}</a></p>
+            <p style="color:#888;border-bottom: #ebebeb 1px dashed;">{{ rp.time.strftime('%Y-%m-%d') }}</p>
+        </div>
     {% endfor %}
 </div>
 <div class="recent-posts">
     <h5>最近文章</h5>
     {% for rp in recentPosts %}
         <p><a url="{{ rp.time.strftime("/beta/posts/%Y/%m/%d/" + rp.id|string) }}">{{ rp.title }}</a></p>
+        <p style="color:#888;border-bottom: #ebebeb 1px dashed;">{{ rp.time.strftime('%Y-%m-%d') }}</p>
     {% endfor %}
 </div>
 <div class="all-tags">
     <h5>所有标签</h5>
-    <ul class="tags blue" style="padding-left: 0">
+    <ul class="tags blue">
         {% for tag in tags %}
-            <li><a url="/beta/posts?tag={{ tag.id }}">{{ tag.name }}<span>{{ tag.count }}</span></a></li>
+            {#<li><a url="/beta/posts?tag={{ tag.id }}">{{ tag.name }}<span>{{ tag.count }}</span></a></li>#}
+            <a url="/beta/posts?tag={{ tag.id }}">{{ tag.name }}</a>
         {% endfor %}
     </ul>
 </div>
