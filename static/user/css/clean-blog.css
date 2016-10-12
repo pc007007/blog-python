@@ -709,7 +709,7 @@ div.modal-body button.btn.btn-primary {
 }
 
 /*标签*/
-#main-content > div.col-xs-12.col-sm-4.col-md-4 > div > div.all-tags > ul a {
+#main-content > div.col-xs-12.col-sm-3.col-md-3 > div > div.all-tags > ul a {
     color: #aaa;
     border: #eee 1px solid;
     padding: 5px;
@@ -718,7 +718,7 @@ div.modal-body button.btn.btn-primary {
     display: inline-block;
 }
 
-#main-content > div.col-xs-12.col-sm-4.col-md-4 > div > div.all-tags > ul a:hover {
+#main-content > div.col-xs-12.col-sm-3.col-md-3 > div > div.all-tags > ul a:hover {
     color: white;
     background-color: #428bca;
     border: #428bca 1px solid;

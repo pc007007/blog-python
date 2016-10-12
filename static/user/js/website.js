@@ -107,14 +107,14 @@ function setPostDetailContent() {
             });
             $('#main-content').html(`
         <p id="tag-content" style="margin: 10px 0 5px 3px">标签: ` + tags + `</p>
-        <div class="col-xs-12 col-sm-8 col-md-8" id="post-content">
+        <div class="col-xs-12 col-sm-9 col-md-9" id="post-content">
             <div class="post">` + post.content + `</div>
             <br>
             <!-- 多说评论框 start -->
             <div id="comment-box"></div>
             <!-- 多说评论框 end -->
         </div>
-        <div class="col-xs-12 col-sm-4 col-md-4">
+        <div class="col-xs-12 col-sm-3 col-md-3">
             <div class="post-right">
             </div>
         </div>
@@ -265,14 +265,14 @@ function setProjectContent() {
             $('.close-modal.skilltree').click(function () {
                 $("iframe#skilltree").attr("src", "");
             });
-/*            count = 0;
-            $('.portfolio-link img').load(function () {
-                count++;
-                console.log(count);
-                if (count == $('.portfolio-link img').length) {
-                    NProgress.done();
-                }
-            });*/
+            /*            count = 0;
+             $('.portfolio-link img').load(function () {
+             count++;
+             console.log(count);
+             if (count == $('.portfolio-link img').length) {
+             NProgress.done();
+             }
+             });*/
             NProgress.done();
         }
     })
